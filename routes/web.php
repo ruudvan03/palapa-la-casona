@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoomController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// 1. RUTA PÚBLICA (Landing Page)
+Route::get('/', [RoomController::class, 'landing'])->name('welcome');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// 2. RUTAS PRIVADAS (Requieren Login)
+Route::middleware(['auth', 'verified'])->group(function () {
+    
+    // Redirección del Dashboard a la gestión de habitaciones
+    Route::get('/dashboard', function () {
+        return redirect()->route('rooms.index');
+    })->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // CRUD completo de habitaciones
+    Route::resource('rooms', RoomController::class)->except(['show']);
 });
 
 require __DIR__.'/auth.php';

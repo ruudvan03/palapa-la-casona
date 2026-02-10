@@ -1,47 +1,20 @@
 <x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+    <div class="min-h-screen flex items-center justify-center bg-stone-900 relative">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1544124499-58912cbddaad?q=80&w=2070" 
+                 class="w-full h-full object-cover opacity-40">
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md p-10 rounded-[3rem] shadow-2xl">
+            <div class="text-center mb-10">
+                <h1 class="font-serif text-4xl font-bold italic text-stone-800">La Casona</h1>
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-casona-yellow mt-2">Acceso Administrativo</p>
+            </div>
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                @csrf
+                <input type="email" name="email" placeholder="Correo" required class="w-full bg-stone-100 border-none rounded-2xl p-4 focus:ring-2 focus:ring-casona-green outline-none">
+                <input type="password" name="password" placeholder="Contraseña" required class="w-full bg-stone-100 border-none rounded-2xl p-4 focus:ring-2 focus:ring-casona-green outline-none">
+                <button type="submit" class="w-full bg-stone-800 hover:bg-casona-green text-white py-4 rounded-2xl font-bold uppercase text-xs tracking-widest transition-all">Entrar</button>
+            </form>
         </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+    </div>
 </x-guest-layout>
